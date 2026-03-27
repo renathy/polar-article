@@ -4,6 +4,8 @@ import numpy as np
 # Cartesian point P
 x, y = 3, 3
 center_font_size = 20
+radians_font_size = 20
+
 
 # Convert to polar coordinates
 r_p = np.sqrt(x**2 + y**2)
@@ -21,15 +23,12 @@ ax.set_frame_on(False)
 ax.set_rticks([])
 ax.set_yticklabels([])
 
-# Title
-ax.set_title("Polar Coordinate System with Radians", va='bottom', fontsize=20)
-
 # Main angles for labels
 angles_labels = np.linspace(0, 2*np.pi, 8, endpoint=False)
 labels = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",
           r"$\pi$", r"$\frac{5\pi}{4}$", r"$\frac{3\pi}{2}$", r"$\frac{7\pi}{4}$"]
 ax.set_xticks(angles_labels)
-ax.set_xticklabels(labels, fontsize=18)
+ax.set_xticklabels(labels, fontsize=radians_font_size)
 
 # Radial lines dividing each quadrant into 6 sectors
 sector_angle = np.pi / 12
