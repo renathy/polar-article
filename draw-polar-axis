@@ -1,0 +1,71 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Cartesian point P
+x, y = 3, 3
+center_font_size = 20
+
+# Convert to polar coordinates
+r_p = np.sqrt(x**2 + y**2)
+theta_p = np.arctan2(y, x)
+
+# Set maximum radius slightly larger than r_p
+r_max = np.ceil(r_p)
+unit = r_max / 4  # radius increment for circles
+
+# Create polar plot
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(12,12))
+
+# Hide default polar frame
+ax.set_frame_on(False)
+ax.set_rticks([])
+ax.set_yticklabels([])
+
+# Title
+ax.set_title("Polar Coordinate System with Radians", va='bottom', fontsize=20)
+
+# Main angles for labels
+angles_labels = np.linspace(0, 2*np.pi, 8, endpoint=False)
+labels = [r"$0$", r"$\frac{\pi}{4}$", r"$\frac{\pi}{2}$", r"$\frac{3\pi}{4}$",
+          r"$\pi$", r"$\frac{5\pi}{4}$", r"$\frac{3\pi}{2}$", r"$\frac{7\pi}{4}$"]
+ax.set_xticks(angles_labels)
+ax.set_xticklabels(labels, fontsize=18)
+
+# Radial lines dividing each quadrant into 6 sectors
+sector_angle = np.pi / 12
+angles_lines = np.arange(0, 2*np.pi, sector_angle)
+for angle in angles_lines:
+    ax.plot([angle, angle], [0, r_max], color='black', linewidth=1)
+
+# Concentric circles
+radii = np.arange(unit, r_max + 0.001, unit)
+theta_full = np.linspace(0, 2*np.pi, 360)
+for r in radii:
+    ax.plot(theta_full, np.full_like(theta_full, r), color='gray', linewidth=0.8, linestyle='--')
+
+# Plot points O and P
+ax.text(0, 0.2*unit, "O", fontsize=center_font_size, ha='center', color='black')
+ax.plot(theta_p, r_p, 'ro', markersize=10)  # P in red
+ax.text(theta_p, r_p + 0.1*unit, "P", fontsize=16, ha='center', color='red')
+
+# Draw vector OP
+ax.plot([0, theta_p], [0, r_p], color='green', linewidth=4, linestyle='-')
+
+# Draw theta angle as a small arc
+arc_radius = 0.5 * unit
+theta_arc = np.linspace(0, theta_p, 50)
+r_arc = np.full_like(theta_arc, arc_radius)
+ax.plot(theta_arc, r_arc, color='blue', linewidth=2)
+
+# Label the angle theta
+ax.text(theta_p/2, 0.6*unit, r"$\theta$", fontsize=18, color='blue', ha='center', va='bottom')
+
+# --- Draw axis arrow along the polar axis (theta = 0) ---
+ax.annotate(
+    "",  # no text
+    xy=(0, r_max),  # arrow tip in polar coordinates (θ, r)
+    xytext=(0, 0),  # arrow start at origin
+    arrowprops=dict(facecolor='black', edgecolor='black', linewidth=2, shrink=0, headwidth=10, headlength=15)
+)
+
+plt.show()
